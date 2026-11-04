@@ -7,10 +7,10 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { name: "Services", href: "#services" },
-  { name: "Our Approach", href: "#storytelling" },
-  { name: "Transformations", href: "#before-after" },
-  { name: "Reviews", href: "#testimonials" },
+  { name: "Services", href: "/#services" },
+  { name: "Our Approach", href: "/#storytelling" },
+  { name: "Transformations", href: "/#before-after" },
+  { name: "Reviews", href: "/#testimonials" },
 ];
 
 export default function Navbar() {
@@ -59,7 +59,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-4">
           <Link
-            href="#appointment"
+            href="/book-appointment"
             className="px-6 py-2.5 rounded-full bg-deep-navy text-soft-white hover:bg-deep-navy/90 dark:bg-soft-white dark:text-deep-navy dark:hover:bg-soft-white/90 text-sm font-medium transition-all hover:shadow-lg hover:shadow-deep-navy/20"
           >
             Book Appointment
@@ -95,7 +95,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="#appointment"
+              href="/book-appointment"
               className="mt-6 px-6 py-3 rounded-full bg-premium-teal text-white text-center font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >

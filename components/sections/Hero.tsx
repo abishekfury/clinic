@@ -36,7 +36,7 @@ export default function Hero() {
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
               <Link
-                href="#appointment"
+                href="/book-appointment"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-deep-navy text-soft-white text-base font-medium hover:bg-deep-navy/90 transition-all hover:shadow-xl hover:shadow-deep-navy/20 hover:-translate-y-1"
               >
                 Book Consultation

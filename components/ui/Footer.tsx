@@ -32,10 +32,10 @@ export default function Footer() {
         <div className="col-span-1">
           <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
           <ul className="space-y-4">
-            <li><Link href="#services" className="text-soft-white/70 hover:text-white transition-colors text-sm">Services</Link></li>
-            <li><Link href="#storytelling" className="text-soft-white/70 hover:text-white transition-colors text-sm">Our Approach</Link></li>
-            <li><Link href="#before-after" className="text-soft-white/70 hover:text-white transition-colors text-sm">Transformations</Link></li>
-            <li><Link href="#testimonials" className="text-soft-white/70 hover:text-white transition-colors text-sm">Patient Reviews</Link></li>
+            <li><Link href="/#services" className="text-soft-white/70 hover:text-white transition-colors text-sm">Services</Link></li>
+            <li><Link href="/#storytelling" className="text-soft-white/70 hover:text-white transition-colors text-sm">Our Approach</Link></li>
+            <li><Link href="/#before-after" className="text-soft-white/70 hover:text-white transition-colors text-sm">Transformations</Link></li>
+            <li><Link href="/#testimonials" className="text-soft-white/70 hover:text-white transition-colors text-sm">Patient Reviews</Link></li>
           </ul>
         </div>
 
@@ -73,7 +73,7 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} Lumina Dental. All rights reserved.
         </p>
         <div className="flex gap-6">
-          <a href="#" className="text-soft-white/50 hover:text-white text-sm transition-colors">Privacy Policy</a>
+          <Link href="/privacy-policy" className="text-soft-white/50 hover:text-white text-sm transition-colors">Privacy Policy</Link>
           <a href="#" className="text-soft-white/50 hover:text-white text-sm transition-colors">Terms of Service</a>
         </div>
       </div>
