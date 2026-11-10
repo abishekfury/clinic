@@ -387,15 +387,15 @@ export async function POST(request: Request) {
   const windowedMessages = validatedMessages.slice(-MAX_MESSAGES_COUNT);
 
   // 5. Check environment variables
-  const apiKey = process.env.AI_API_KEY;
+  const apiKey = process.env.AI_API_KEY?.trim();
   if (!apiKey) {
-    console.error("[api/chat] AI_API_KEY is not configured");
+    console.error("[api/chat] Missing AI_API_KEY in environment variables. Please configure AI_API_KEY in Vercel Project Settings.");
     return friendlyErrorResponse(500);
   }
 
   // Models to attempt: user override (if provided) -> standard stable Flash models
   const candidateModels = process.env.AI_MODEL
-    ? [process.env.AI_MODEL, "gemini-1.5-flash", "gemini-2.0-flash"]
+    ? [process.env.AI_MODEL.trim(), "gemini-1.5-flash", "gemini-2.0-flash"]
     : ["gemini-1.5-flash", "gemini-2.0-flash"];
 
   // 6. Build system prompt & Gemini contents
@@ -415,7 +415,10 @@ export async function POST(request: Request) {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent?key=${encodeURIComponent(apiKey)}`;
       const res = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey,
+        },
         body: JSON.stringify({
           systemInstruction: {
             parts: [{ text: systemPrompt }],
@@ -437,7 +440,9 @@ export async function POST(request: Request) {
         break;
       }
 
-      console.error(`[api/chat] Gemini model '${m}' failed with status ${res.status}`);
+      const errText = await res.text().catch(() => "");
+      console.error(`[api/chat] Gemini model '${m}' failed with status ${res.status}: ${errText.slice(0, 150)}`);
+
       // Only continue to fallback model if 404 (model not found)
       if (res.status !== 404) {
         geminiResponse = res;
@@ -591,7 +596,10 @@ export async function POST(request: Request) {
 
       const followupResponse = await fetch(geminiUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey,
+        },
         body: JSON.stringify({
           systemInstruction: {
             parts: [{ text: systemPrompt }],
