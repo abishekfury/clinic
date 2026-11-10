@@ -393,10 +393,21 @@ export async function POST(request: Request) {
     return friendlyErrorResponse(500);
   }
 
-  // Models to attempt: user override (if provided) -> standard stable Flash models
+  // Models to attempt: user override (if provided) -> modern stable fast models -> fallbacks
   const candidateModels = process.env.AI_MODEL
-    ? [process.env.AI_MODEL.trim(), "gemini-1.5-flash", "gemini-2.0-flash"]
-    : ["gemini-1.5-flash", "gemini-2.0-flash"];
+    ? [
+        process.env.AI_MODEL.trim(),
+        "gemini-3.5-flash-lite",
+        "gemini-flash-latest",
+        "gemini-flash-lite-latest",
+        "gemini-1.5-flash",
+      ]
+    : [
+        "gemini-3.5-flash-lite",
+        "gemini-flash-latest",
+        "gemini-flash-lite-latest",
+        "gemini-1.5-flash",
+      ];
 
   // 6. Build system prompt & Gemini contents
   const systemPrompt = buildSystemPrompt(clinicKnowledge);
@@ -443,8 +454,8 @@ export async function POST(request: Request) {
       const errText = await res.text().catch(() => "");
       console.error(`[api/chat] Gemini model '${m}' failed with status ${res.status}: ${errText.slice(0, 150)}`);
 
-      // Only continue to fallback model if 404 (model not found)
-      if (res.status !== 404) {
+      // Only continue to fallback model if 404 (model not found/deprecated) or 503 (temporary high demand)
+      if (res.status !== 404 && res.status !== 503) {
         geminiResponse = res;
         selectedModel = m;
         break;
@@ -582,12 +593,15 @@ export async function POST(request: Request) {
           parts: [{ functionCall: funcCallPart.functionCall }],
         },
         {
-          role: "user",
+          role: "function",
           parts: [
             {
               functionResponse: {
                 name: "submit_appointment",
-                response: toolResult,
+                response: {
+                  name: "submit_appointment",
+                  content: toolResult,
+                },
               },
             },
           ],
