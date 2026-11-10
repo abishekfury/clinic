@@ -24,6 +24,14 @@ export default function PrivacyPolicyPage() {
               When you send an appointment enquiry we collect your name, phone number, email address, the treatment you are
               interested in and your preferred appointment time. We use these details only to contact you about your enquiry.
             </p>
+            <div className="mb-4 p-4 rounded-2xl bg-warm-beige border border-deep-navy/10">
+              <p className="text-xs uppercase tracking-wider font-semibold text-premium-teal mb-1">
+                AI Assistant & Chat Privacy [Marked for Legal Review]
+              </p>
+              <p className="text-deep-navy/70 font-light text-sm leading-relaxed">
+                Our website includes an AI-powered chat assistant. When you chat with the assistant, your messages are sent securely in real time to our AI provider (Google Gemini) to generate helpful replies. We do not store chat transcripts. If you choose to submit an appointment booking request through the chat, your submitted contact and appointment details are handled in the exact same manner as our appointment booking form. You may contact the clinic at any time to request access to or deletion of your personal details.
+              </p>
+            </div>
             <p className="text-deep-navy/70 font-light">
               To ask about your data, please contact the clinic using the details in the website footer.
             </p>
